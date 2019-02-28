@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Drawing Tools</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+        var drawingManager;
+        var map;
+        var coords = [
+            { lat: 26.509473952454865, lng: -70.31194531250003 },
+            { lat: 24.886000000000017, lng: -61.43499218750003 },
+            { lat: 27.5662948858892, lng: -61.56682812500003 },
+            { lat: 31.540679794503053, lng: -71.19085156250003 },
+            { lat: 29.496568794449143, lng: -78.09026562500003 },
+            { lat: 26.666665812988313, lng: -57.78753125000003 },
+        ]
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 24.886, lng: -70.268 },
+                zoom: 5,
+                mapTypeId: 'terrain'
+            });
+            initPolygon();
+
+            drawingManager = new google.maps.drawing.DrawingManager({
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: ['polygon']
+                },
+                circleOptions: {
+                    fillColor: '#ffff00',
+                    fillOpacity: 0.35,
+                    strokeWeight: 2
+                }
+            });
+            drawingManager.setMap(map);
+
+            drawingManager.addListener('polygoncomplete', function (polygon) {
+                var coordinatesArray = polygon.getPath().getArray();
+                coordinatesArray.forEach(point => {
+                    var lat = point.lat();
+                    var lon = point.lng();
+                    console.log(lat, lon);
+                });
+            });
+        }
+
+        function addMarker(latLng, polygon) {
+            console.log(polygon);
+            var containsLocation = polygon &&
+                google.maps.geometry.poly.containsLocation(latLng, polygon);
+
+            var resultColor =
+                containsLocation ?
+                    'blue' :
+                    'red';
+
+            var resultPath =
+                containsLocation ?
+                    "m 0 -1 l 1 2 -2 0 z" :
+                    google.maps.SymbolPath.CIRCLE;
+
+            new google.maps.Marker({
+                position: latLng,
+                map: map,
+                icon: {
+                    path: resultPath,
+                    fillColor: resultColor,
+                    fillOpacity: .2,
+                    strokeColor: 'white',
+                    strokeWeight: .5,
+                    scale: 10
+                }
+            });
+        }
+
+        function initPolygon() {
+            var triangleCoords = [
+                { lat: 25.774, lng: -80.19 },
+                { lat: 18.466, lng: -66.118 },
+                { lat: 32.321, lng: -64.757 }
+            ];
+
+            var polygon = new google.maps.Polygon({
+                paths: triangleCoords
+            });
+
+            polygon.addListener('click', function (e) {
+                addMarker(e.latLng, polygon);
+            });
+
+            map.addListener('click', function (e) {
+                addMarker(e.latLng);
+            });
+
+            polygon.setMap(map);
+        }
+
+
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjzQJWwAlwf2j4M7G6sJ8MIdXIgCzAUH4&libraries=drawing&callback=initMap"
+        async defer></script>
+</body>
+
+</html>
