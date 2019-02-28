@@ -1,3 +1,5 @@
+PRICING FOR MAPS, ROUTES, AND PLACES
+https://cloud.google.com/maps-platform/pricing/sheet/
 
 What do you want to do By what API?
 https://developers.google.com/maps/documentation/api-picker
