@@ -111,7 +111,9 @@
             }
 
             var inPolygon = polygon &&
-                google.maps.geometry.poly.containsLocation(point, polygon);
+                (google.maps.geometry.poly.containsLocation(point, polygon) || 
+                 google.maps.geometry.poly.isLocationOnEdge(point, polygon, 10e-1));
+
             if (inPolygon) {
                 inPolygonPoints.push(point);
             }
@@ -143,6 +145,12 @@
             markers.push(marker);
         }
 
+        function addCoord(latLng) {
+            this.coords.push({
+                lat: latLng.lat(), lng: latLng.lng()
+            });
+        }
+
         function initPolygon(polygon, coords) {
             setTimeout(function () {
                 coords.forEach(coord => {
@@ -153,10 +161,12 @@
 
             polygon.addListener('click', function (e) {
                 addMarker(e.latLng, polygon);
+                addCoord(e.latLng);
             });
 
             map.addListener('click', function (e) {
                 addMarker(e.latLng);
+                addCoord(e.latLng);
             });
 
             polygon.setMap(map);
