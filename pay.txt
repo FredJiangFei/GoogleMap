@@ -1,0 +1,12 @@
+
+What do you want to do By what API?
+https://developers.google.com/maps/documentation/api-picker
+
+Understanding Billing for Maps, Routes, and Places
+https://developers.google.com/maps/billing/understanding-cost-of-use#billing-overview
+
+Pricing Calculator
+https://mapsplatformtransition.withgoogle.com/calculator?__utma=102347093.1285057007.1551238835.1551331748.1551331748.1&__utmb=102347093.0.10.1551331748&__utmc=102347093&__utmx=-&__utmz=102347093.1551331748.1.1.utmcsr%3D(direct)%7Cutmccn%3D(direct)%7Cutmcmd%3D(none)&__utmv=-&__utmk=159042746&_ga=2.115627910.1470535992.1551238835-1285057007.1551238835
+
+Maps Embed API Usage and Billing
+https://developers.google.com/maps/documentation/embed/usage-and-billing#embed
